@@ -10,7 +10,7 @@
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="navbar-nav">
-                <a class="nav-link" href="#">Online Ticket Reservation System</a>
+                <a class="nav-link" href="#">User Dashboard</a>
 
             </li>
         </ul>
@@ -24,20 +24,18 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-success elevation-4">
         <!-- Brand Logo -->
-        <a href="individual.php" class="brand-link">
+        <a href="#" class="brand-link">
 
-            <span class="brand-text font-weight-light">Sun 16, Oct 22</span>
+            <span class="brand-text font-weight-light">{{now()->format('Y-m-d')}}</span>
         </a>
 
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="uploads/404a6378027a553d980b99162a5b4ce8.png" class="img-circle elevation-2" alt="User Image">
-                </div>
+            <div class="user-panel  mt-3 pb-3 mb-3 d-flex">
+                
                 <div class="info">
-                    <a href="#" class="d-block">Demo Account</a>
+                    <a href="{{url('/')}}" class="d-block">{{strtoupper(Auth::user()->name)}}</a>
                 </div>
             </div>
 
@@ -49,7 +47,7 @@
            with font-awesome or any other icon font library -->
                     <li class="nav-item has-treeview menu-open">
                         <a href="{{url('user/profile')}}" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="nav-icon fas fa-user-alt"></i>
                             <p>
                                 Profile
                             </p>
@@ -74,12 +72,16 @@
 
                     <li>
                     <li class="nav-item">
-                        <a href="{{route('logout')}}" class="nav-link">
+                        <a href="{{route('logout')}}" class="nav-link" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                             <i class="nav-icon fas fa-power-off"></i>
                             <p>
                                 Logout
                             </p>
                         </a>
+                    </li>
+                    <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -124,31 +126,33 @@
                     <table class="table table-bordered" id='example1'>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Ticket Number</th>
+                                <th>Ticket ID</th>
+                                <th>Trip Route</th>
                                 <th>Trip Date</th>
-                                <th>Status</th>
+                                <th>Amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($tickets as $ticket)
+                            
                             <tr>
-                                <td>1</td>
-                                <td>2021/0104/1526</td>
-                                <td>14-10-2021</td>
-                                <td><span class="text-bold text-danger">Expired</span></td>
+                                <td>{{$ticket->ticket_id}}</td> 
+                                <td>{{$ticket->origin}} to {{$ticket->destination}}</td>
+                                <td>{{$ticket->date}}</td>
+                                <td>{{$ticket->booked_seat}}</td>
                                 <td>
                                 <button type='button' class='btn btn-primary' data-toggle='modal'
-                                data-target='#view34'>
+                                data-target='#view{{$ticket->ticket_id}}'>
                                 View
                             </button>
                                 </td>
 
-                                </tr>                                <div class="modal fade" id="view34">
+                                </tr>                                <div class="modal fade" id="view{{$ticket->ticket_id}}">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Details For - Vlinginia to Onaginia 
+                                            <h4 class="modal-title">Details For - {{$ticket->origin}} to {{$ticket->destination}}
                                             <span class="">&#128669;</span></h4>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
@@ -158,18 +162,16 @@
                                         <div class="modal-body">
 
 
-                                            <p><b>Seat Number :</b>
-                                                F001 - F002                                                </p>
-                                            <p><b>Train Name :</b>
-                                                Phantom Express                                                </p>
+                                            <p><b>Operator Name :</b>
+                                                {{$ticket->operator_name}}                                               </p>
+                                            
                                             <p><b>Payment Date :</b>
-                                                Wed, 13-Oct-2021 05:22:15 PM                                                </p>
-                                            <p><b>Amount Paid :</b> $
-                                                324                                                </p>
-                                            <p><b>Payment Ref :</b>
-                                                KH70GOC8KO                                                </p>
+                                                {{$ticket->created_at}}                                              </p>
+                                            <p><b>Price :</b> $
+                                                {{$ticket->price}}                                                </p>
+                                            
 
-                                            <button disabled="disabled" class="btn btn-danger">Ticket Has Been Expired</button>                                                    
+                                                                                              
                                                 
 <!-- Start -->
 
@@ -179,102 +181,9 @@
                                         <!-- /.modal-content -->
                                     </div>
                                     <!-- /.modal-dialog -->
+                                    @endforeach
                                 </div>
-                                <tr>
-                                <td>2</td>
-                                <td>2021/0103/3809</td>
-                                <td>12-10-2021</td>
-                                <td><span class="text-bold text-danger">Expired</span></td>
-                                <td>
-                                <button type='button' class='btn btn-primary' data-toggle='modal'
-                                data-target='#view33'>
-                                View
-                            </button>
-                                </td>
-
-                                </tr>                                <div class="modal fade" id="view33">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Details For - Rutherglen to Tylwaerdreath 
-                                            <span class="">&#128669;</span></h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-
-
-                                            <p><b>Seat Number :</b>
-                                                S003                                                </p>
-                                            <p><b>Train Name :</b>
-                                                Renfee R                                                </p>
-                                            <p><b>Payment Date :</b>
-                                                Wed, 13-Oct-2021 02:21:40 PM                                                </p>
-                                            <p><b>Amount Paid :</b> $
-                                                76                                                </p>
-                                            <p><b>Payment Ref :</b>
-                                                H6CMTHBJUU                                                </p>
-
-                                            <button disabled="disabled" class="btn btn-danger">Ticket Has Been Expired</button>                                                    
-                                                
-<!-- Start -->
-
-
-<!-- End -->
-                              </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
-                                <tr>
-                                <td>3</td>
-                                <td>2021/026/1183</td>
-                                <td>18-09-2021</td>
-                                <td><span class="text-bold text-danger">Expired</span></td>
-                                <td>
-                                <button type='button' class='btn btn-primary' data-toggle='modal'
-                                data-target='#view26'>
-                                View
-                            </button>
-                                </td>
-
-                                </tr>                                <div class="modal fade" id="view26">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Details For - St Bawle to San Ghammea 
-                                            <span class="">&#128669;</span></h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-
-
-                                            <p><b>Seat Number :</b>
-                                                F01 - F04                                                </p>
-                                            <p><b>Train Name :</b>
-                                                British Railways                                                </p>
-                                            <p><b>Payment Date :</b>
-                                                Fri, 17-Sep-2021 04:25:09 PM                                                </p>
-                                            <p><b>Amount Paid :</b> $
-                                                5260                                                </p>
-                                            <p><b>Payment Ref :</b>
-                                                1QXPYSUTOI                                                </p>
-
-                                            <button disabled="disabled" class="btn btn-danger">Ticket Has Been Expired</button>                                                    
-                                                
-<!-- Start -->
-
-
-<!-- End -->
-                              </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
+                                
                                 </div>
                                                             </tbody>
                     </table>

@@ -68,7 +68,7 @@
                 <input type="file" name='file' required>
             </div>
         </div> --}}
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <label>Address</label>
                 <input type='text' name="address" class="form-group" required>
@@ -79,8 +79,15 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" >
-                <span class="help-block" id="error"></span>
+                <input type="password" name="password" id="pw" required >
+                <span class="help-block" ></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="password" id="confirm_pw" required>
+                <span class="help-block" ></span>
             </div>
         </div>
         {{-- <div class="col-md-6">
@@ -101,6 +108,22 @@
             <a href="#">.</a><br>
         </p>
     </form>
+    
 </div>
 </div>
+<script>
+    var password = document.getElementById("pw")
+  , confirm_password = document.getElementById("confirm_pw");
+
+    function validatePassword(){
+    if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+        confirm_password.setCustomValidity('');
+    }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
 @endsection

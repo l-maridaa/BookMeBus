@@ -9,9 +9,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
 
-class userController extends Controller
+class loginController extends Controller
 {
     //
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -89,5 +90,18 @@ class userController extends Controller
         
 
     }
+
+    public function update_profile($id){
+        $user = User::find($id);
+        $user->name = $request->input('update_name');
+        $user->phone_num = $request->input('update_phone');
+        $user->email = $request->input('update_email');
+        $user->address = $request->input('update_address');
+
+        $operator->update();
+
+        return redirect('user/profile')->with('status', 'Profile has been updated!!!');
+    }
+
     
 }

@@ -4,6 +4,11 @@
 
 <head>
     @include('layouts.user.header')
+    <style>
+        #edit_button:hover{
+            color: #28a745;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
