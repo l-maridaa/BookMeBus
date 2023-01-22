@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\userController;
+use App\Http\Controllers\dashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,45 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 
-Route::get('/login', function () {
-    return view('user.login');
+Route::get('/login', [userController::class,'show_login_form'])->name('login');
+Route::post('/login', [userController::class,'process_login'])->name('login');
+Route::get('/signup', [userController::class,'show_signup_form'])->name('signup');
+Route::post('/signup', [userController::class,'process_signup']);
+Route::post('/logout', [userController::class,'logout'])->name('logout');
+
+Route::group(["middleware"=>["auth"]], function(){
+
+    Route::get('user/profile', [dashboardController::class, 'show_dashboard']);
+    Route::get('user/bookedHistory', [dashboardController::class, 'show_booked_list']); 
 });
 
-Route::get('/signup', function () {
-    return view('user.signup');
-});
-
-Route::get('/admin/login', function () {
-    return view('admin.adminLog');
-});
-
-Route::get('/admin', function () {
-    return view('admin.admin');
-});
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.adminDashboard');
-});
-
-Route::get('/admin/dashboard/users', function () {
-    return view('admin.userControl');
-});
-
-Route::get('/admin/dashboard/schedule', function () {
-    return view('admin.scheduleControl');
-});
-
-Route::get('/admin/dashboard/route', function () {
-    return view('admin.routeControl');
-});
-
-Route::get('/admin/dashboard/operator', function () {
-    return view('admin.operatorControl');
-});
-
-Route::get('/admin/dashboard/payment', function () {
-    return view('admin.paymentControl');
-});
+?>

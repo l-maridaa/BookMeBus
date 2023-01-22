@@ -26,27 +26,28 @@
     <h2>Create Account </h2>
     <br>
     <p class="alert alert-info">
-        <marquee behavior="" scrollamount="2" direction="">You need to create an account to book/view trains!
+        <marquee behavior="" scrollamount="2" direction="">You need to create an account to book/view Buses!
         </marquee>
     </p>
-    <form class="login-form" method="post" role="form" enctype="multipart/form-data" id="signup-form"
+    <form class="login-form" method="post" role="form" action="{{route('signup')}}" enctype="multipart/form-data" id="signup-form"
         autocomplete="off">
         <!-- json response will be here -->
+        @if(session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+        @endif
+        @csrf
         <div id="errorDiv"></div>
         <!-- json response will be here -->
         <div class="col-md-12">
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" required minlength="10" name="name">
+                <input type="text" required minlength="5" name="name">
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Contact Number</label>
-                <input type="text" minlength="11" pattern="[0-9]{11}" required name="phone">
-            </div>
-        </div>
+        
         <div class="col-md-6">
             <div class="form-group">
                 <label>Email Address</label>
@@ -56,10 +57,17 @@
 
         <div class="col-md-6">
             <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" minlength="9"  required name="phone_num">
+            </div>
+        </div>
+
+        {{-- <div class="col-md-6">
+            <div class="form-group">
                 <label>Select Picture</label>
                 <input type="file" name='file' required>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-6">
             <div class="form-group">
                 <label>Address</label>
@@ -67,21 +75,21 @@
                 </select>
                 <span class="help-block" id="error"></span>
             </div>
-        </div>
+        </div> 
         <div class="col-md-6">
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" >
                 <span class="help-block" id="error"></span>
             </div>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-group">
                 <label>Confirm Password</label>
                 <input type="password" name="cpassword" id="cpassword">
                 <span class="help-block" id="error"></span>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-12">
             <div class="form-group">
                 <button type="submit" id="btn-signup">

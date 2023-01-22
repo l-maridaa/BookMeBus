@@ -205,15 +205,5 @@
 
 @endsection
 
-@section('nav')
-<li>
-    <a href="{{url('/login')}}" class="page-scroll">
-        <h3>Login</h3>
-    </a>
-</li>
-@endsection
 
-@section('link')
-<a class="navbar-brand" href="{{url('/')}}">O<span class="themecolor">
-    n</span>line Ticket Reservation System</a>
-@endsection
+

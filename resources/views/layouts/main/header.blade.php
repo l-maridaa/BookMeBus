@@ -53,7 +53,8 @@
 
                 </button>
 
-                @yield('link')
+                <a class="navbar-brand" href="{{url('/')}}">O<span class="themecolor">
+                    n</span>line Ticket Reservation System</a>
 
             </div>
 
@@ -76,9 +77,32 @@
                         </a>
                     </li>
 
+                    @auth
+                        <li>
+                            <a href="{{url('/user/profile')}}" class="page-scroll">
+                                <h3>Profile</h3>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('logout')}}" class="page-scroll" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                                <h3>Logout</h3>
+                            </a>
+                        </li>
+                        <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    @endauth
+
+                    @guest
+                        <li>
+                            <a href="{{url('/login')}}" class="page-scroll">
+                                <h3>Login</h3>
+                            </a>
+                        </li>
+                    @endguest
                     
 
-                    @yield('nav')
+                   
 
                     
                 </ul>
